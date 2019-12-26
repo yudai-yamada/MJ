@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true"
+    android:id="@+id/scrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/day_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="日付:"
+            android:textSize="15sp" />
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/dayEditText"
+            android:layout_width="wrap_content"
+            android:inputType="textMultiLine">
+            <requestFocus/>
+        </EditText>
+
+        <TextView
+            android:id="@+id/hole_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="店名:"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/holeEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="textMultiLine">
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <CheckBox
+            android:id="@+id/checkbox_ton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="東風"
+            android:textSize="10sp" />
+        <CheckBox
+            android:id="@+id/checkbox_ariari"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="アリアリ"
+            android:checked="true"
+            android:textSize="10sp" />
+        <CheckBox
+            android:id="@+id/checkbox_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="赤あり"
+            android:checked="true"
+            android:textSize="10sp" />
+        <CheckBox
+            android:id="@+id/checkbox_oka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="オカあり"
+            android:checked="true"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:id="@+id/rate_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="レート(点):"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/rateEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"
+            android:inputType="number">
+            <requestFocus />
+        </EditText>
+        <TextView
+            android:id="@+id/c_rate_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="チップレート:"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/cRateEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0"
+            android:inputType="number">
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/uma_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="備考(ウマ):"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/umaEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="textMultiLine">
+            <requestFocus />
+        </EditText>
+        <TextView
+            android:id="@+id/badai_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="場代(1人):"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/badaiEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:inputType="number">
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableLayout">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/result_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="3dp"
+                android:layout_weight="0.5"
+                android:text="結果"
+                android:gravity="right"
+                android:paddingRight="10dp"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/amt1_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/amt2_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/amt3_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/amt4_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/amt5_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:layout_weight="1"
+                android:text="0"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="15sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cpGreen">
+
+            <TextView
+                android:id="@+id/CP_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:text="チップ"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/CPEditText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:inputType="numberSigned">
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/CPEditText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:inputType="numberSigned">
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/CPEditText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:inputType="numberSigned">
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/CPEditText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:inputType="numberSigned">
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/CPEditText5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:inputType="numberSigned">
+
+                <requestFocus />
+            </EditText>
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/whiteblue">
+
+            <TextView
+                android:id="@+id/damy_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:text=""
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/tablerow1_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:text="検索"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/tablerow2_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:text="検索"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/tablerow3_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:text="検索"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/tablerow4_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:text="検索"
+                android:textSize="10dp" />
+
+            <Button
+                android:id="@+id/tablerow5_button"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:text="検索"
+                android:textSize="10dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/whiteblue">
+
+            <TextView
+                android:id="@+id/name_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingLeft="10dp"
+                android:text="名前"
+                android:paddingRight="10dp"
+                android:gravity="right"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/EditText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1">
+                <requestFocus />
+            </EditText>
+            <EditText
+                android:id="@+id/EditText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1">
+            </EditText>
+            <EditText
+                android:id="@+id/EditText3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1">
+            </EditText>
+            <EditText
+                android:id="@+id/EditText4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1">
+            </EditText>
+            <EditText
+                android:id="@+id/EditText5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1">
+            </EditText>
+        </TableRow>
+
+    </TableLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalTableLayout">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/total_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingLeft="0dp"
+            android:paddingRight="5dp"
+            android:text="結果"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/total1_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/total2_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/total3_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/total4_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="0"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/total5_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="0"
+            android:textSize="15sp" />
+
+
+    </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="10dp"
+            android:text="行追加" />
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="10dp"
+            android:text="保存" />
+        <Button
+            android:id="@+id/menu_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="10dp"
+            android:text="メニュー" />
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>
