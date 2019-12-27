@@ -834,6 +834,7 @@ public class MainActivity extends AppCompatActivity {
                 totalResult += Integer.valueOf(result);
             }
         }
+
         amtText1.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(1))).setText(String.valueOf(totalResult));
