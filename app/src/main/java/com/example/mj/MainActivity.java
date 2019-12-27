@@ -79,11 +79,19 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox okaCheck;
     private EditText costText;
 
+    private Cursor oldCursor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setScreenMain(true);
+        Intent intent = getIntent();
+        RE_ID = intent.getIntExtra("re_id",0);
+        if(RE_ID == 0){
+            setScreenMain(true);
+        }else {
+            setScreenMain(false);
+        }
 
     }
 
@@ -96,13 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Date date = new Date(); // 今日の日付
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String strDate = dateFormat.format(date);
-        if (newFlg) {
-            dbAdapter.open();
-            RE_ID = getLastID();
-            dbAdapter.close();
-        } else {
 
-        }
 
         dayText = findViewById(R.id.dayEditText);
         dayText.setText(strDate);
@@ -112,13 +114,21 @@ public class MainActivity extends AppCompatActivity {
         ariariCheck =  findViewById(R.id.checkbox_ariari);
         redCheck =  findViewById(R.id.checkbox_red);
         okaCheck =  findViewById(R.id.checkbox_oka);
-        dayText = findViewById(R.id.badaiEditText);
+        costText = findViewById(R.id.badaiEditText);
+        RateText = findViewById(R.id.rateEditText);
+        CPRateText = findViewById(R.id.cRateEditText);
 
         userText1 = findViewById(R.id.EditText1);
         userText2 = findViewById(R.id.EditText2);
         userText3 = findViewById(R.id.EditText3);
         userText4 = findViewById(R.id.EditText4);
         userText5 = findViewById(R.id.EditText5);
+
+        CPText1 = findViewById(R.id.CPEditText1);
+        CPText2 = findViewById(R.id.CPEditText2);
+        CPText3 = findViewById(R.id.CPEditText3);
+        CPText4 = findViewById(R.id.CPEditText4);
+        CPText5 = findViewById(R.id.CPEditText5);
 
         //結果(金額)
         amtText1 = findViewById(R.id.amt1_TextView);
@@ -127,9 +137,106 @@ public class MainActivity extends AppCompatActivity {
         amtText4 = findViewById(R.id.amt4_TextView);
         amtText5 = findViewById(R.id.amt5_TextView);
 
+        dbAdapter.open();
+        if (newFlg) {
+            RE_ID = getLastID();
+        } else {
+            oldCursor = dbAdapter.getResultByID(RE_ID);
+            oldCursor.moveToFirst();
 
-        //レート計算
-        CPRateText = findViewById(R.id.cRateEditText);
+            dayText.setText(oldCursor.getString(oldCursor.getColumnIndex(DBAdapter.COL_DATE)));
+            placeText.setText(oldCursor.getString(oldCursor.getColumnIndex(DBAdapter.COL_PLACE)));
+            RateText.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_RATE))));
+            CPRateText.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_CHIP_RATE))));
+            umaText.setText(oldCursor.getString(oldCursor.getColumnIndex(DBAdapter.COL_UMA)));
+            costText.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_COST))));
+
+            if(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_TON)) == 1){tonCheck.setChecked(true);}else{tonCheck.setChecked(false);}
+            if(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_ARIARI)) == 1){ariariCheck.setChecked(true);}else{ariariCheck.setChecked(false);}
+            if(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_RED)) == 1){redCheck.setChecked(true);}else{redCheck.setChecked(false);}
+            if(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_OKA)) == 1){okaCheck.setChecked(true);}else{okaCheck.setChecked(false);}
+
+            CPText1.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_CHIP1))));
+            CPText2.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_CHIP2))));
+            CPText3.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_CHIP3))));
+            CPText4.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_CHIP4))));
+            CPText5.setText(String.valueOf(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_CHIP5))));
+
+            userText1.setText(dbAdapter.getUserName(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_USER1))));
+            userText2.setText(dbAdapter.getUserName(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_USER2))));
+            userText3.setText(dbAdapter.getUserName(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_USER3))));
+            userText4.setText(dbAdapter.getUserName(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_USER4))));
+            userText5.setText(dbAdapter.getUserName(oldCursor.getInt(oldCursor.getColumnIndex(DBAdapter.COL_USER5))));
+
+            Cursor rowC = dbAdapter.getResultRowByID(RE_ID);
+            int i = 0;
+            if(rowC.moveToFirst()){
+                do {
+                    // 行を追加
+                    getLayoutInflater().inflate(R.layout.table_row, vg);
+                    tableRowNumText = findViewById(R.id.rowNumTextView);
+                    // 文字設定
+                    TableRow tr = (TableRow)vg.getChildAt(i+4);
+                    ((TextView)(tr.getChildAt(0))).setText(String.valueOf(i+1));
+
+                    ((TextView)(tr.getChildAt(1))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT1))));
+                    ((TextView)(tr.getChildAt(2))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT2))));
+                    ((TextView)(tr.getChildAt(3))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT3))));
+                    ((TextView)(tr.getChildAt(4))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT4))));
+                    ((TextView)(tr.getChildAt(5))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT5))));
+
+                    new MultiTextWatcher()
+                            .registerEditText( ((EditText)(tr.getChildAt(1))))
+                            .registerEditText( ((EditText)(tr.getChildAt(2))))
+                            .registerEditText( ((EditText)(tr.getChildAt(3))))
+                            .registerEditText( ((EditText)(tr.getChildAt(4))))
+                            .registerEditText( ((EditText)(tr.getChildAt(5))))
+                            .setCallback(new TextWatcherWithInstance() {
+                                @Override
+                                public void beforeTextChanged(EditText editText, CharSequence s, int start, int count, int after) {
+                                }
+
+                                @Override
+                                public void onTextChanged(EditText editText, CharSequence s, int start, int before, int count) {
+                                }
+
+                                @Override
+                                public void afterTextChanged(EditText editText, Editable editable) {
+                                    culRow(editable,(TableRow) editText.getParent());
+                                    switch (editText.getId()){
+                                        case R.id.EditText1:
+                                            setAmt1(editable);
+                                            break;
+                                        case R.id.EditText2:
+                                            setAmt2(editable);
+                                            break;
+                                        case R.id.EditText3:
+                                            setAmt3(editable);
+                                            break;
+                                        case R.id.EditText4:
+                                            setAmt4(editable);
+                                            break;
+                                        case R.id.EditText5:
+                                            setAmt5(editable);
+                                            break;
+                                    }
+                                }
+                            });
+                    i++;
+                }while(rowC.moveToNext());
+            }
+            setAmt1(RateText.getText());
+            setAmt2(RateText.getText());
+            setAmt3(RateText.getText());
+            setAmt4(RateText.getText());
+            setAmt5(RateText.getText());
+
+        }
+
+        dbAdapter.close();
+
+
+        //チップレート計算
         CPRateText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -153,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        RateText = findViewById(R.id.rateEditText);
+        //レート計算
         RateText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -179,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //チップ計算
-        CPText1 = findViewById(R.id.CPEditText1);
+
         CPText1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -192,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 setAmt1(s);
             }
         });
-        CPText2 = findViewById(R.id.CPEditText2);
+
         CPText2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -205,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                 setAmt2(s);
             }
         });
-        CPText3 = findViewById(R.id.CPEditText3);
+
         CPText3.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -218,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 setAmt3(s);
             }
         });
-        CPText4 = findViewById(R.id.CPEditText4);
+
         CPText4.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -231,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                 setAmt4(s);
             }
         });
-        CPText5 = findViewById(R.id.CPEditText5);
+
         CPText5.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -245,51 +352,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        for (int i=0; i<1; i++) {
-            // 行を追加
-            getLayoutInflater().inflate(R.layout.table_row, vg);
-            tableRowNumText = findViewById(R.id.rowNumTextView);
-            // 文字設定
-            TableRow tr = (TableRow)vg.getChildAt(i+4);
-            ((TextView)(tr.getChildAt(0))).setText(String.valueOf(i+1));
-            new MultiTextWatcher()
-                    .registerEditText( ((EditText)(tr.getChildAt(1))))
-                    .registerEditText( ((EditText)(tr.getChildAt(2))))
-                    .registerEditText( ((EditText)(tr.getChildAt(3))))
-                    .registerEditText( ((EditText)(tr.getChildAt(4))))
-                    .registerEditText( ((EditText)(tr.getChildAt(5))))
-                    .setCallback(new MultiTextWatcher.TextWatcherWithInstance() {
-                        @Override
-                        public void beforeTextChanged(EditText editText, CharSequence s, int start, int count, int after) {
-                        }
-
-                        @Override
-                        public void onTextChanged(EditText editText, CharSequence s, int start, int before, int count) {
-                        }
-
-                        @Override
-                        public void afterTextChanged(EditText editText, Editable editable) {
-                            culRow(editable,(TableRow) editText.getParent());
-                            switch (editText.getId()){
-                                case R.id.EditText1:
-                                    setAmt1(editable);
-                                    break;
-                                case R.id.EditText2:
-                                    setAmt2(editable);
-                                    break;
-                                case R.id.EditText3:
-                                    setAmt3(editable);
-                                    break;
-                                case R.id.EditText4:
-                                    setAmt4(editable);
-                                    break;
-                                case R.id.EditText5:
-                                    setAmt5(editable);
-                                    break;
+        if(newFlg){
+            for (int i=0; i<1; i++) {
+                // 行を追加
+                getLayoutInflater().inflate(R.layout.table_row, vg);
+                tableRowNumText = findViewById(R.id.rowNumTextView);
+                // 文字設定
+                TableRow tr = (TableRow)vg.getChildAt(i+4);
+                ((TextView)(tr.getChildAt(0))).setText(String.valueOf(i+1));
+                new MultiTextWatcher()
+                        .registerEditText( ((EditText)(tr.getChildAt(1))))
+                        .registerEditText( ((EditText)(tr.getChildAt(2))))
+                        .registerEditText( ((EditText)(tr.getChildAt(3))))
+                        .registerEditText( ((EditText)(tr.getChildAt(4))))
+                        .registerEditText( ((EditText)(tr.getChildAt(5))))
+                        .setCallback(new TextWatcherWithInstance() {
+                            @Override
+                            public void beforeTextChanged(EditText editText, CharSequence s, int start, int count, int after) {
                             }
-                        }
-                    });
+
+                            @Override
+                            public void onTextChanged(EditText editText, CharSequence s, int start, int before, int count) {
+                            }
+
+                            @Override
+                            public void afterTextChanged(EditText editText, Editable editable) {
+                                culRow(editable,(TableRow) editText.getParent());
+                                switch (editText.getId()){
+                                    case R.id.EditText1:
+                                        setAmt1(editable);
+                                        break;
+                                    case R.id.EditText2:
+                                        setAmt2(editable);
+                                        break;
+                                    case R.id.EditText3:
+                                        setAmt3(editable);
+                                        break;
+                                    case R.id.EditText4:
+                                        setAmt4(editable);
+                                        break;
+                                    case R.id.EditText5:
+                                        setAmt5(editable);
+                                        break;
+                                }
+                            }
+                        });
+            }
         }
+
 
         //ユーザ1検索ボタン
         Button tablerow1_button = findViewById(R.id.tablerow1_button);
@@ -518,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //戻るボタン（処理未実装）
+        //メニューボタン
         Button returnButton = findViewById(R.id.menu_button);
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -526,7 +636,7 @@ public class MainActivity extends AppCompatActivity {
                 //アラートダイアログ表示
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("結果の保存")
-                        .setMessage("結果を保存せずに移動しますか？")
+                        .setMessage("保存していない結果は破棄されます。\n移動しますか？")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -574,7 +684,7 @@ public class MainActivity extends AppCompatActivity {
                         .registerEditText( ((EditText)(tr.getChildAt(3))))
                         .registerEditText( ((EditText)(tr.getChildAt(4))))
                         .registerEditText( ((EditText)(tr.getChildAt(5))))
-                        .setCallback(new MultiTextWatcher.TextWatcherWithInstance() {
+                        .setCallback(new TextWatcherWithInstance() {
                             @Override
                             public void beforeTextChanged(EditText editText, CharSequence s, int start, int count, int after) {
                             }
@@ -886,19 +996,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-/*        Button sendButton = findViewById(R.id.edit_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), EditActivity.class);
-                startActivity(intent);
-            }
-        });*/
-//
-
-
 
 }
 

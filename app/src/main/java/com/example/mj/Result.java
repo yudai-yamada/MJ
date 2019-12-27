@@ -15,6 +15,6 @@ public class Result {
     }
     public int getRe_id(){return re_id;}
     public String getDate(){return date; }
-    public  String getPlace(){return place;}
+    public String getPlace(){return place;}
     public String getUsers(){return users;}
 }

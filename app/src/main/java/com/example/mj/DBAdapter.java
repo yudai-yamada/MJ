@@ -27,11 +27,11 @@ public class DBAdapter {
     public static final String COL_PLACE = "PLACE";
     public static final String COL_RATE = "RATE";
     public static final String COL_CHIP_RATE = "CHIP_RATE";
-    public static final String COL_CHIP1 = "CHUP1";
-    public static final String COL_CHIP2 = "CHUP2";
-    public static final String COL_CHIP3 = "CHUP3";
-    public static final String COL_CHIP4 = "CHUP4";
-    public static final String COL_CHIP5 = "CHUP5";
+    public static final String COL_CHIP1 = "CHIP1";
+    public static final String COL_CHIP2 = "CHIP2";
+    public static final String COL_CHIP3 = "CHIP3";
+    public static final String COL_CHIP4 = "CHIP4";
+    public static final String COL_CHIP5 = "CHIP5";
     public static final String COL_TON = "TON";
     public static final String COL_ARIARI = "ARIARI";
     public static final String COL_RED = "RED";
@@ -228,6 +228,19 @@ public class DBAdapter {
         return count;
     }
 
+    public String getUserName(int id){
+        Cursor c;
+        String name = "";
+        String str = "SELECT * from " + TABLE_NAME_USER + " WHERE USER_ID = " +id;
+        c = db.rawQuery(str,null);
+        if(c.moveToFirst()){
+            do {
+                name = c.getString(c.getColumnIndex(DBAdapter.COL_USER_NAME));
+            }while(c.moveToNext());
+        }
+        return name;
+    }
+
     public Cursor getUserList(){
         String str = "SELECT * from " + TABLE_NAME_USER;
         return db.rawQuery(str,null);
@@ -285,6 +298,19 @@ public class DBAdapter {
 
 
         return ID;
+    }
+
+    public Cursor getResult(){
+        String str = "SELECT * from " + TABLE_NAME;
+        return db.rawQuery(str,null);
+    }
+    public Cursor getResultByID(int re_id){
+        String str = "SELECT * from " + TABLE_NAME +" WHERE RE_ID = "+re_id ;
+        return db.rawQuery(str,null);
+    }
+    public Cursor getResultRowByID(int re_id){
+        String str = "SELECT * from " + TABLE_NAME_ROW +" WHERE RE_ID = "+re_id ;
+        return db.rawQuery(str,null);
     }
 
     //結果登録処理
