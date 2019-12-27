@@ -838,6 +838,7 @@ public class MainActivity extends AppCompatActivity {
         amtText1.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(1))).setText(String.valueOf(totalResult));
+        
     }
     //User2の成績計算
     private void setAmt2(Editable s){
