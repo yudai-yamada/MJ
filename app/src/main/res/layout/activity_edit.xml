@@ -6,7 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backPerple">
 
     <LinearLayout
         android:layout_height="wrap_content"
@@ -189,6 +190,106 @@
             <requestFocus />
         </EditText>
     </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/totaltableLayout">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/total_result_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:paddingBottom="3dp"
+            android:layout_weight="0.15"
+            android:text="金額(場代込)"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/total_amt1_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:background="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/total_amt2_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:background="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/total_amt3_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:background="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/total_amt4_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:background="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/total_amt5_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:layout_weight="1"
+            android:text="0"
+            android:background="@color/white"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="15sp" />
+
+    </TableRow>
+    </TableLayout>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -473,7 +574,6 @@
                 android:layout_marginRight="2dp"
                 android:layout_marginBottom="2dp"
                 android:layout_weight="1">
-                <requestFocus />
             </EditText>
             <EditText
                 android:id="@+id/EditText2"
@@ -532,7 +632,7 @@
             android:id="@+id/total_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.7"
             android:gravity="right"
             android:paddingLeft="0dp"
             android:paddingRight="5dp"
@@ -632,6 +732,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginEnd="10dp"
+            android:background="@color/buttonBlue"
             android:text="行追加" />
         <Button
             android:id="@+id/save_button"
@@ -639,6 +740,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginEnd="10dp"
+            android:background="@color/buttonBlue"
             android:text="保存" />
         <Button
             android:id="@+id/menu_button"
@@ -646,6 +748,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginEnd="10dp"
+            android:background="@color/buttonBlue"
             android:text="メニュー" />
     </LinearLayout>
 

@@ -32,6 +32,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private int RE_ID;
+    private boolean NewFlg;
     private ViewGroup vg ;
     private TextView tableRowNumText;
     //チップ
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView amtText3;
     private TextView amtText4;
     private TextView amtText5;
+
+    //結果（金額、場代込）
+    private TextView totalamtText1;
+    private TextView totalamtText2;
+    private TextView totalamtText3;
+    private TextView totalamtText4;
+    private TextView totalamtText5;
 
     //結果（点数）
     private TextView totalText1;
@@ -104,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         Date date = new Date(); // 今日の日付
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String strDate = dateFormat.format(date);
+        NewFlg = newFlg;
 
 
         dayText = findViewById(R.id.dayEditText);
@@ -136,6 +145,13 @@ public class MainActivity extends AppCompatActivity {
         amtText3 = findViewById(R.id.amt3_TextView);
         amtText4 = findViewById(R.id.amt4_TextView);
         amtText5 = findViewById(R.id.amt5_TextView);
+
+        //結果(金額,場代込)
+        totalamtText1 = findViewById(R.id.total_amt1_TextView);
+        totalamtText2 = findViewById(R.id.total_amt2_TextView);
+        totalamtText3 = findViewById(R.id.total_amt3_TextView);
+        totalamtText4 = findViewById(R.id.total_amt4_TextView);
+        totalamtText5 = findViewById(R.id.total_amt5_TextView);
 
         dbAdapter.open();
         if (newFlg) {
@@ -184,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
                     ((TextView)(tr.getChildAt(3))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT3))));
                     ((TextView)(tr.getChildAt(4))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT4))));
                     ((TextView)(tr.getChildAt(5))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_POINT5))));
+                    //HIDDEN属性に詳細行のIDを持つ
+                    ((TextView)(tr.getChildAt(6))).setText(String.valueOf(rowC.getInt(rowC.getColumnIndex(DBAdapter.COL_ID))));
 
                     new MultiTextWatcher()
                             .registerEditText( ((EditText)(tr.getChildAt(1))))
@@ -235,6 +253,24 @@ public class MainActivity extends AppCompatActivity {
 
         dbAdapter.close();
 
+
+        //場代計算
+        costText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                    setAmt1(s);
+                    setAmt2(s);
+                    setAmt3(s);
+                    setAmt4(s);
+                    setAmt5(s);
+            }
+        });
 
         //チップレート計算
         CPRateText.addTextChangedListener(new TextWatcher() {
@@ -753,21 +789,42 @@ public class MainActivity extends AppCompatActivity {
         if (okaCheck.isChecked()) { oka = 1;}
         dbAdapter.open();
         dbAdapter.db.beginTransaction();
-        dbAdapter.saveResult(
-                userArray,                        //日付r
 
-                dayText.getText().toString(),                      //機種名
-                placeText.getText().toString(),   //投資
-                Integer.parseInt(RateText.getText().toString()),   //回収
-                Integer.parseInt(CPRateText.getText().toString()),
-                chipArray,
-                ton,
-                ariari,
-                red,
-                oka,
-                umaText.getText().toString(),
-                Integer.valueOf(costText.getText().toString())
-        );
+        if(NewFlg){
+            dbAdapter.saveResult(
+                    userArray,                        //日付r
+
+                    dayText.getText().toString(),                      //機種名
+                    placeText.getText().toString(),   //投資
+                    Integer.parseInt(RateText.getText().toString()),   //回収
+                    Integer.parseInt(CPRateText.getText().toString()),
+                    chipArray,
+                    ton,
+                    ariari,
+                    red,
+                    oka,
+                    umaText.getText().toString(),
+                    Integer.valueOf(costText.getText().toString())
+            );
+        }else{
+            dbAdapter.updateResult(
+                    userArray,                        //日付r
+
+                    dayText.getText().toString(),                      //機種名
+                    placeText.getText().toString(),   //投資
+                    Integer.parseInt(RateText.getText().toString()),   //回収
+                    Integer.parseInt(CPRateText.getText().toString()),
+                    chipArray,
+                    ton,
+                    ariari,
+                    red,
+                    oka,
+                    umaText.getText().toString(),
+                    Integer.valueOf(costText.getText().toString()),
+                    RE_ID
+            );
+        }
+
         dbAdapter.db.setTransactionSuccessful();
         dbAdapter.db.endTransaction();
 
@@ -777,6 +834,7 @@ public class MainActivity extends AppCompatActivity {
         String P3="";
         String P4="";
         String P5="";
+        String ID="";
         dbAdapter.db.beginTransaction();
         for (int i = 0; i < Count; i++){
             TableRow tr = (TableRow)vg.getChildAt(i+4);
@@ -790,16 +848,25 @@ public class MainActivity extends AppCompatActivity {
             if(!(result.equals(""))) {P4 = result; }
             result =((TextView)(tr.getChildAt(5))).getText().toString() ;
             if(!(result.equals(""))) {P5 = result; }
-            dbAdapter.saveRowResult(RE_ID,i+1,P1,P2,P3,P4,P5);
+            result =((TextView)(tr.getChildAt(6))).getText().toString() ;
+            if(!(result.equals(""))) {ID = result; }
+            if(ID.equals("")){
+                dbAdapter.saveRowResult(RE_ID,i+1,P1,P2,P3,P4,P5);
+            }else{
+                dbAdapter.updateRowResult(RE_ID,i+1,P1,P2,P3,P4,P5,ID);
+            }
+
             P1 = "";
             P2 = "";
             P3 = "";
             P4 = "";
             P5 = "";
+            ID = "";
         }
         dbAdapter.db.setTransactionSuccessful();
         dbAdapter.db.endTransaction();
         dbAdapter.close();
+        NewFlg = false;
 
     }
 
@@ -835,10 +902,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        totalamtText1.setText(String.valueOf(amtResult - Integer.valueOf(costText.getText().toString())));
         amtText1.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(1))).setText(String.valueOf(totalResult));
-        
+
     }
     //User2の成績計算
     private void setAmt2(Editable s){
@@ -869,6 +937,7 @@ public class MainActivity extends AppCompatActivity {
                 totalResult += Integer.valueOf(result);
             }
         }
+        totalamtText2.setText(String.valueOf(amtResult - Integer.valueOf(costText.getText().toString())));
         amtText2.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(2))).setText(String.valueOf(totalResult));
@@ -902,6 +971,7 @@ public class MainActivity extends AppCompatActivity {
                 totalResult += Integer.valueOf(result);
             }
         }
+        totalamtText3.setText(String.valueOf(amtResult - Integer.valueOf(costText.getText().toString())));
         amtText3.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(3))).setText(String.valueOf(totalResult));
@@ -935,6 +1005,7 @@ public class MainActivity extends AppCompatActivity {
                 totalResult += Integer.valueOf(result);
             }
         }
+        totalamtText4.setText(String.valueOf(amtResult - Integer.valueOf(costText.getText().toString())));
         amtText4.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(4))).setText(String.valueOf(totalResult));
@@ -968,6 +1039,7 @@ public class MainActivity extends AppCompatActivity {
                 totalResult += Integer.valueOf(result);
             }
         }
+        totalamtText5.setText(String.valueOf(amtResult - Integer.valueOf(costText.getText().toString())));
         amtText5.setText(String.valueOf(amtResult));
         TableRow tr = (TableRow)totalvg.getChildAt(0);
         ((TextView)(tr.getChildAt(5))).setText(String.valueOf(totalResult));

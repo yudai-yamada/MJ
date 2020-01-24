@@ -68,4 +68,12 @@
         android:layout_marginBottom="2dp"
         android:inputType="numberSigned">
     </EditText>
+    <TextView
+        android:id="@+id/idText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text=""
+        android:textSize="20sp"
+        android:visibility="gone"/>
 </TableRow>

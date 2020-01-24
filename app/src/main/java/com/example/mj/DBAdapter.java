@@ -178,6 +178,8 @@ public class DBAdapter {
 
 
 
+
+
     public void updateUserName(int id, String name){
         Date dateNow = new Date ();
         ContentValues values = new ContentValues();
@@ -367,6 +369,63 @@ public class DBAdapter {
         values.put(COL_LASTUPDATE, dateNow.toLocaleString());
 
         db.insertOrThrow(TABLE_NAME_ROW, null, values);
+
+    }
+
+    //結果DB更新
+    public void updateResult(ArrayList<String> userArray,String date, String place, int rate, int chip_rate,ArrayList<Integer> chipArray,int ton, int ariari
+            , int red, int oka ,String uma, int cost,int re_id){
+        //ユーザがいない場合は登録する。
+        saveUser(userArray);
+
+        //日別結果ＤＢに登録
+        Date dateNow = new Date ();
+        ContentValues values = new ContentValues();
+
+        values.put(COL_RE_ID,re_id);
+        values.put(COL_DATE, date);
+        int i = 1;
+        for(String name: userArray){
+            values.put("USER" + String.valueOf(i), getUserID(name));
+            i++;
+            //userArray.get(0);
+
+        }
+        if(!(place.equals(""))){ values.put(COL_PLACE, place); }
+        values.put(COL_RATE, rate);
+        if(!(String.valueOf(chip_rate).equals(""))){ values.put(COL_CHIP_RATE, chip_rate); }
+        i = 1;
+        for(int chip: chipArray){
+            values.put("CHIP" + String.valueOf(i), chip);
+            i++;
+        }
+        values.put(COL_TON, ton);
+        values.put(COL_ARIARI, ariari);
+        values.put(COL_RED, red);
+        values.put(COL_OKA, oka);
+        if(!(uma.equals(""))){ values.put(COL_UMA, uma); }
+        values.put(COL_COST, cost);
+        values.put(COL_LASTUPDATE, dateNow.toLocaleString());
+        db.replaceOrThrow(TABLE_NAME, null, values);
+    }
+
+    //結果詳細更新
+    public  void updateRowResult(int re_id,int row_num,String point1,String point2, String point3, String point4, String point5,String id){
+        //結果詳細ＤＢを更新
+        Date dateNow = new Date ();
+        ContentValues values = new ContentValues();
+
+        values.put(COL_ID, Integer.valueOf(id));
+        values.put(COL_RE_ID, re_id);
+        values.put(COL_ROW_NUM, row_num);
+        if(point1 != ""){ values.put(COL_POINT1, Integer.valueOf(point1)); }
+        if(point2 != ""){ values.put(COL_POINT2, Integer.valueOf(point2)); }
+        if(point3 != ""){ values.put(COL_POINT3, Integer.valueOf(point3)); }
+        if(point4 != ""){ values.put(COL_POINT4, Integer.valueOf(point4)); }
+        if(point5 != ""){ values.put(COL_POINT5, Integer.valueOf(point5)); }
+        values.put(COL_LASTUPDATE, dateNow.toLocaleString());
+
+        db.replaceOrThrow(TABLE_NAME_ROW, null, values);
 
     }
 
